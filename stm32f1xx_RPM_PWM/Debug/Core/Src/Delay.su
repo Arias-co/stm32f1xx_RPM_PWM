@@ -1,0 +1,7 @@
+Delay.cpp:11:1:Delay::Delay(TIM_TypeDef*)	16	static
+Delay.cpp:17:6:void Delay::start()	16	static
+Delay.cpp:35:6:void Delay::clock_enable()	32	static
+Delay.cpp:93:6:void Delay::micros(uint16_t)	16	static
+Delay.cpp:101:6:void Delay::calc_prescaler()	16	static
+Delay.cpp:116:1:Delay::~Delay()	16	static
+Delay.cpp:116:1:virtual Delay::~Delay()	16	static
