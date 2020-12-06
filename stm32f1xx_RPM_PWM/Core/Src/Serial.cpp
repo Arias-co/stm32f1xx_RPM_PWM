@@ -7,10 +7,9 @@
 
 #include "Serial.h"
 
-Serial::Serial( UART_HandleTypeDef * uartx, Mode_print mode_p )
+Serial::Serial( UART_HandleTypeDef * uartx )
 {
     // TODO Auto-generated constructor stub
-    mode = mode_p;
     uart = uartx;
 }
 
@@ -34,36 +33,27 @@ void Serial::receive( uint8_t * data, uint16_t timeout,
             }
         }
     }
-    else if(modeTimeout == INTER_BYTE_TIMEOUT)
-    {
-        if(timeout == 1) timeout++;
-
-        while ( ( HAL_GetTick() - lastTime ) < timeout )
+    else
+        if ( modeTimeout == INTER_BYTE_TIMEOUT )
         {
-            if ( __HAL_UART_GET_FLAG( uart, UART_FLAG_RXNE ) )
+            if ( timeout == 1 ) timeout++;
+
+            while ( ( HAL_GetTick() - lastTime ) < timeout )
             {
-                *bufer = (uint8_t) uart->Instance->DR ;
-                bufer++;
-                lastTime = HAL_GetTick();
+                if ( __HAL_UART_GET_FLAG( uart, UART_FLAG_RXNE ) )
+                {
+                    *bufer = (uint8_t) uart->Instance->DR;
+                    bufer++;
+                    lastTime = HAL_GetTick();
+                }
             }
         }
-    }
 }
 
 void Serial::write( uint8_t * text )
 {
-    uint8_t i = 0;
 
-    if ( mode == PRINT_UART )
-    {
-        HAL_UART_Transmit( uart, text, strlen( (char*) text ), 1000 );
-    }
-    else
-    {
-        for ( i = 0; i < strlen( (char*) text ); i++ )
-        {
-            ITM_SendChar( text[i] );
-        }
-    }
+    HAL_UART_Transmit( uart, text, strlen( (char*) text ), 1000 );
+
 }
 

@@ -11,12 +11,6 @@
 #include "Print.h"
 #include "stm32f1xx_hal.h"
 
-typedef enum
-{
-    PRINT_DEBUGGING = 0x00,
-    PRINT_UART = 0x01,
-    PRINT_USB = 0x02
-} Mode_print;
 
 typedef enum
 {
@@ -33,7 +27,7 @@ private:
 public:
 
     UART_HandleTypeDef *uart;
-    Serial( UART_HandleTypeDef * uartx, Mode_print mode = PRINT_UART );
+    Serial( UART_HandleTypeDef * uartx);
     void receive( uint8_t * data, uint16_t timeout , Mode_timeout_t modeTimeout);
     virtual void write( uint8_t * text );
 
